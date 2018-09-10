@@ -7,7 +7,7 @@ __pycache__/
 *$py.class
 
 # Credentials
-client_secret.json
+token.json
 credentials.json
 
 # C extensions

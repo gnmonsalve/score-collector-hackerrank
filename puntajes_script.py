@@ -81,8 +81,10 @@ def get_hackers(lab, alumnos):
 def actualizar(service):
     print('===================================================================')
     print(date_time())
+    lista_nalumnos = []
     alumnos = {}
     lab_keys = list(LABS.keys())
+    lab_keys.sort()
 
 #     Leer archivo
     with open('puntajes.csv', 'r') as csvfile:
@@ -95,6 +97,7 @@ def actualizar(service):
                 inicial, actual = int(row[2 + 2*i-1]), int(row[2 + 2*i])
 
                 puntajes[lab_keys[i]] = [inicial, actual]
+            lista_nalumnos.append(row[0])
             alumnos[row[0]] = puntajes
 #     Obtener puntajes
     for lab in LABS:
@@ -103,34 +106,49 @@ def actualizar(service):
 #     Actualizar archivo
     with open('puntajes.csv', 'w') as csvfile:
         writer = csv.writer(csvfile, delimiter=';')
-        writer.writerow(['n_alumno', 'usuario', 'l1_inicial', 'l1_actual', 'l2_inicial', 'l2_actual', 'l3_inicial', 'l3_actual', 'l4_inicial', 'l4_actual', 'l5_inicial', 'l5_actual', 'l6_inicial', 'l6_actual', 'l7_inicial', 'l7_actual', 'l8_inicial', 'l8_actual', 'l9_inicial', 'l9_actual', 'l10_inicial', 'l10_actual', 'l11_inicial', 'l11_actual'])
-        for alumno, value in alumnos.items():
-            row = [alumno]
-            for lab_key in value:
-                row.append(value[lab_key][0])
-                row.append(value[lab_key][1])
+        writer.writerow(['n_alumno', 'l1_inicial', 'l1_actual', 'l2_inicial', 'l2_actual', 'l3_inicial', 'l3_actual', 'l4_inicial', 'l4_actual', 'l5_inicial', 'l5_actual', 'l6_inicial', 'l6_actual', 'l7_inicial', 'l7_actual', 'l8_inicial', 'l8_actual', 'l9_inicial', 'l9_actual', 'l10_inicial', 'l10_actual', 'l11_inicial', 'l11_actual'])
+        for n_alumno in lista_nalumnos:
+            row = [n_alumno]
+            puntajes = alumnos[n_alumno]
+            lab_keys = list(puntajes.keys())
+            lab_keys.sort()
+            for lab_key in lab_keys:
+                row.append(puntajes[lab_key][0])
+                row.append(puntajes[lab_key][1])
             writer.writerow(row)
 
 #     Actualizar spreadsheet
     requests = []
 
-    i=2
+    i=3
     requests.append({
         "pasteData": {
-          "coordinate": { "rowIndex": 0, "columnIndex": 2},
-          "data": 'Última actualización: {}'.format(date_time()),
+          "coordinate": { "rowIndex": 0, "columnIndex": 1},
+          "data": 'Última actualización;{}'.format(date_time()),
           "delimiter": ";",
         },
     })
-    for alumno, value in alumnos.items():
+    requests.append({
+        "pasteData": {
+          "coordinate": { "rowIndex": 2, "columnIndex": 1},
+          "data": 'número alumno;L1;L2;L3;L4;L5;L6;L7;L8;L9;L10;L11',
+          "delimiter": ";",
+        },
+    })
+    for n_alumno in lista_nalumnos:
+        puntajes = alumnos[n_alumno]
+        lab_keys = list(puntajes.keys())
+        lab_keys.sort()
+        
+        s = '{};'.format(n_alumno)
+        for lab_key in lab_keys:
+            p_i, p_a = puntajes[lab_key]
 
-        s = ''
-        for lab_key in value:
-            p_i, p_a = value[lab_key]
+            # Cálculo del puntaje
             s += '{};'.format(int(min(1200,p_i+(p_a - p_i)/2)))
         requests.append({
             "pasteData": {
-              "coordinate": { "rowIndex": i, "columnIndex": 2},
+              "coordinate": { "rowIndex": i, "columnIndex": 1},
               "data": s[:-1],
               "delimiter": ";",
             },

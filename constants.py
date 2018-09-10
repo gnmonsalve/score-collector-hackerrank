@@ -1,6 +1,6 @@
 from datetime import datetime
 
-SPREADSHEET_ID = '12VA_7AUpKuUSXFQzmlWmNl722iVwgp6bAPKgO2g7r9I'
+SPREADSHEET_ID = 'ID'
 
 LABS = {
     'lab1': {
