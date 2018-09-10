@@ -18,6 +18,7 @@ Este código está construido sobre https://github.com/mjjunemann/IIC1103-hacker
 3. Actualizar la variable LABS en el archivo *constants.py*.
 4. Crear el archivo *puntajes.csv*. En este archivo se almacenará el puntaje obtenido a tiempo (inicial) y fuera de tiempo (actual) para cada alumno. Se debe ver como:
 
-```csv
+```
 n_alumno;l1_inicial;l1_actual;l2_inicial;l2_actual;...;l11_inicial;l11_actual
-18XXXXX0;1200;1200;600;1200;...;0;0```
+18XXXXX0;1200;1200;600;1200;...;0;0
+```
