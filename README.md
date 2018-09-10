@@ -4,6 +4,8 @@
 Este projecto tiene como objetivo automatizar la recolección y publicación de puntajes para los laboratorios del ramo IIC1103, desde [hackerrank](https://www.hackerrank.com).
 
 El puntaje asignado a un alumno se calcula como pi + (pf-pi)/2, donde pi es el puntaje obtenido dentro del tiempo asignado para el laboratorio y pf el puntaje fuera de tiempo. Esto significa que los laboratorios pueden realizarse hasta fin de semestre, pero con la mitad del puntaje de los ejercicios realizados fuera de tiempo.
+
+Este código está construido sobre https://github.com/mjjunemann/IIC1103-hacker-rank.
 ## Uso
 1. Habilitar y crear credenciales para la API de Google Spreadsheets
   * Ir a la [consola de desarrolladores?](https://console.developers.google.com) y habilitar Google Sheets API.
